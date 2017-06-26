@@ -5,9 +5,12 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.io.File;
 
 public class Main extends Application {
 
@@ -33,6 +36,9 @@ public class Main extends Application {
         VBox box = new VBox();
         box.getChildren().addAll(menuBar, tabPane);
 
+        File file = new File("resources/tileset.png");
+        Image image = new Image(file.toURI().toString());
+
         Canvas canvas1 = new Canvas();
 
         Pane wrapperPane1 = new Pane();
@@ -40,9 +46,9 @@ public class Main extends Application {
 
         canvas1.widthProperty().bind(wrapperPane1.widthProperty());
         canvas1.heightProperty().bind(wrapperPane1.heightProperty());
-        canvas1.widthProperty().addListener(event -> drawCanvas(canvas1));
-        canvas1.heightProperty().addListener(event -> drawCanvas(canvas1));
-        drawCanvas(canvas1);
+        canvas1.widthProperty().addListener(event -> drawMap(canvas1, image));
+        canvas1.heightProperty().addListener(event -> drawMap(canvas1, image));
+        drawMap(canvas1, image);
 
         Canvas canvas2 = new Canvas();
 
@@ -70,6 +76,17 @@ public class Main extends Application {
         scene.getStylesheets().add("style/style.css");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    private static void drawMap(Canvas canvas, Image image) {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        for (int z = 0; z < 6; z++) {
+            for (int x = 0 ; x < 50; x++) {
+                for (int y = 0; y < 50; y++) {
+                    gc.drawImage(image, 0, 80, 40, 40, x*40, y*40, 40, 40);
+                }
+            }
+        }
     }
 
     private static void drawCanvas(Canvas canvas) {
