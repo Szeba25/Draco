@@ -1,4 +1,4 @@
-package sample;
+package hu.szeba.draco;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
