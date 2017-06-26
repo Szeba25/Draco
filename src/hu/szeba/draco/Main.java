@@ -39,33 +39,27 @@ public class Main extends Application {
         File file = new File("resources/tileset.png");
         Image image = new Image(file.toURI().toString());
 
-        Canvas canvas1 = new Canvas();
+        Canvas mapCanvas = new Canvas();
+        Pane mapWrapper = new Pane();
+        mapWrapper.getChildren().add(mapCanvas);
+        mapCanvas.widthProperty().bind(mapWrapper.widthProperty());
+        mapCanvas.heightProperty().bind(mapWrapper.heightProperty());
 
-        Pane wrapperPane1 = new Pane();
-        wrapperPane1.getChildren().add(canvas1);
+        TileMap tileMap = new TileMap(mapCanvas, image);
 
-        canvas1.widthProperty().bind(wrapperPane1.widthProperty());
-        canvas1.heightProperty().bind(wrapperPane1.heightProperty());
-        canvas1.widthProperty().addListener(event -> drawMap(canvas1, image));
-        canvas1.heightProperty().addListener(event -> drawMap(canvas1, image));
-        drawMap(canvas1, image);
-
-        Canvas canvas2 = new Canvas();
-
-        Pane wrapperPane2 = new Pane();
-        wrapperPane2.setMinWidth(100);
-        wrapperPane2.setMaxWidth(400);
-
-        wrapperPane2.getChildren().add(canvas2);
-
-        canvas2.widthProperty().bind(wrapperPane2.widthProperty());
-        canvas2.heightProperty().bind(wrapperPane2.heightProperty());
-        canvas2.widthProperty().addListener(event -> drawCanvas(canvas2));
-        canvas2.heightProperty().addListener(event -> drawCanvas(canvas2));
-        drawCanvas(canvas2);
+        Canvas tileCanvas = new Canvas();
+        Pane tileWrapper = new Pane();
+        tileWrapper.setMinWidth(100);
+        tileWrapper.setMaxWidth(400);
+        tileWrapper.getChildren().add(tileCanvas);
+        tileCanvas.widthProperty().bind(tileWrapper.widthProperty());
+        tileCanvas.heightProperty().bind(tileWrapper.heightProperty());
+        tileCanvas.widthProperty().addListener(event -> drawTestCanvas(tileCanvas));
+        tileCanvas.heightProperty().addListener(event -> drawTestCanvas(tileCanvas));
+        drawTestCanvas(tileCanvas);
 
         SplitPane sp = new SplitPane();
-        sp.getItems().addAll(wrapperPane1, wrapperPane2);
+        sp.getItems().addAll(mapWrapper, tileWrapper);
         sp.setDividerPositions(0.85f);
 
         BorderPane root = new BorderPane();
@@ -78,18 +72,7 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    private static void drawMap(Canvas canvas, Image image) {
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        for (int z = 0; z < 6; z++) {
-            for (int x = 0 ; x < 50; x++) {
-                for (int y = 0; y < 50; y++) {
-                    gc.drawImage(image, 0, 80, 40, 40, x*40, y*40, 40, 40);
-                }
-            }
-        }
-    }
-
-    private static void drawCanvas(Canvas canvas) {
+    private static void drawTestCanvas(Canvas canvas) {
         int width = (int) canvas.getWidth();
         int height = (int) canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
