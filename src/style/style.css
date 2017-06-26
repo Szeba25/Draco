@@ -1,0 +1,6 @@
+.root{
+    -fx-font-size: 10pt;
+    -fx-font-family: "OCR A Extended";
+    -fx-base: rgb(20, 20, 40);
+    -fx-background: rgb(15, 15, 35);
+}
